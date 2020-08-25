@@ -2,30 +2,37 @@ import java.util.Scanner;
 
 public class BankAccount {
 
-    private int balance;
-    private int previousTransaction;
+    private double balance;
+    private double previousTransaction;
     private String customerName;
-    private String customerId;
+    private int accountType;
 
-    BankAccount(String customerName, String customerId){
+    public static final int CHECKINGS = 1;
+    public static final int SAVINGS = 2;
+
+    public BankAccount(String customerName, double balance, int typeofAccount){
         this.customerName = customerName;
-        this.customerId = customerId;
-    }
-    void deposit(int amount){
-        if (amount != 0){
-            balance = balance + amount;
-            previousTransaction = amount;
-        }
+        this.balance = balance;
+        this.accountType = typeofAccount;
     }
 
-    void withdraw(int amount){
+    public double deposit(double amount){
         if (amount != 0){
-            balance = balance - amount;
+            balance += amount;
             previousTransaction = amount;
         }
+        return balance;
     }
 
-    void getPreviousTransaction(){
+    public double withdraw(double amount){
+        if (amount != 0){
+            balance -= amount;
+            previousTransaction = amount;
+        }
+        return balance;
+    }
+
+    public void getPreviousTransaction(){
         if (previousTransaction > 0){
             System.out.println("Deposited: " + previousTransaction);
         }
@@ -37,12 +44,15 @@ public class BankAccount {
         }
     }
 
+    public double getBalance(){
+        return balance;
+    }
+
     void showMenu() {
         char option = '\0';
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Welcome " + customerName);
-        System.out.println("Your personal ID is: " + customerId);
         System.out.println("\n");
         System.out.println("A. Check Balance ");
         System.out.println("B. Deposit");
@@ -61,7 +71,7 @@ public class BankAccount {
 
             switch(option){
                 case 'A':
-                    System.out.println("Balance = " + balance);
+                    System.out.println("Balance = " + getBalance());
                     System.out.println("\n");
                     break;
 
